@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Protobuf_Net_Sample</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="protobuf-net" Version="3.0.29" />
+    <PackageReference Include="WebApiContrib.Core.Formatter.Protobuf" Version="3.0.0" />
+  </ItemGroup>
+
+
+</Project>

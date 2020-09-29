@@ -1,64 +1,28 @@
-# Protobuf-Net-Sample
-Use Protobuf in Asp.Net Core WebApi
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using ProtoBuf;
+using Protobuf_Net_Sample.Models;
+using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
 
-
-
-### 1.Inport Nuget
-
-```
-protobuf-net
-
-WebApiContrib.Core.Formatter.Protobuf
-```
-
-
-
-### 2.Edit Startup.cs
-
-```
-services.AddControllers()
-                .AddProtobufFormatters();
-```
-
-
-
-### 3.Model
-
-```
-	[ProtoContract]
-    public class Article
+namespace Protobuf_Net_Sample.Controllers
+{
+    [ApiController]
+    [Route("{controller}/{action}")]
+    public class BookController : ControllerBase
     {
-        [ProtoMember(1)]
-        public int Id { get; set; }
 
-        [ProtoMember(2)]
-        public string Title { get; set; }
+        private readonly ILogger<BookController> _logger;
 
-        [ProtoMember(3)]
-        public string Content { get; set; }
-    }
-    
-    
-    [ProtoContract]
-    public class Book
-    {
-        [ProtoMember(1)]
-        public int Id { get; set; }
+        public BookController(ILogger<BookController> logger)
+        {
+            _logger = logger;
+        }
 
-        [ProtoMember(2)]
-        public string Name { get; set; }
-
-        [ProtoMember(3)]
-        public Article Article { get; set; }
-    }
-```
-
-
-
-### 4.Controller Action Return Protobuf
-
-```
-		[HttpGet]
+        [HttpGet]
         //添加此配置项，仅返回application/x-protobuf格式的数据,若未添加默认返回json，或客户端请求时指定Accept=application/x-protobuf
         //[Produces("application/x-protobuf")]
         public Book GetBook()
@@ -80,20 +44,19 @@ services.AddControllers()
             return book;
 
         }
-```
 
-
-
-### 5.Client Call Rest API And Deserialize Form Protobuf
-
-```
-HttpClient client = new HttpClient();
+        [HttpGet]
+        public async Task<Book> CallProtoBufRequest()
+        {
+            HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-protobuf"));
             var response = await client.GetAsync("http://"+HttpContext.Request.Host.Value+"/book/getBook");
             MemoryStream stream = new MemoryStream();
             await response.Content.CopyToAsync(stream);
             stream.Position = 0;
             var book = Serializer.Deserialize<Book>(stream);
-```
+            return book;
 
-<!--  -->
+        }
+    }
+}
