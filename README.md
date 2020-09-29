@@ -1,5 +1,5 @@
 # Protobuf-Net-Sample
-Use Protobuf in Asp.Net Core WebApi
+Use Protobuf in Asp.Net Core WebApi(.net core 3.1)
 
 
 
