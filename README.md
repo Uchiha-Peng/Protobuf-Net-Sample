@@ -25,7 +25,7 @@ services.AddControllers()
 ### 3.Model
 
 ```
-	[ProtoContract]
+[ProtoContract]
     public class Article
     {
         [ProtoMember(1)]
@@ -39,7 +39,7 @@ services.AddControllers()
     }
     
     
-    [ProtoContract]
+[ProtoContract]
     public class Book
     {
         [ProtoMember(1)]
@@ -58,7 +58,7 @@ services.AddControllers()
 ### 4.Controller Action Return Protobuf
 
 ```
-		[HttpGet]
+[HttpGet]
         //添加此配置项，仅返回application/x-protobuf格式的数据,若未添加默认返回json，或客户端请求时指定Accept=application/x-protobuf
         //[Produces("application/x-protobuf")]
         public Book GetBook()
